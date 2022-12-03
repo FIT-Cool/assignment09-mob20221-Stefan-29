@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:paddingStart="@dimen/app_padding"
     android:paddingEnd="@dimen/app_padding"
-    tools:context=".MainFragment"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/sr_layout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/list_width"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -19,4 +19,16 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/news_item" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:text="wow"-->
+<!--        android:textAlignment="center"-->
+<!--        android:layout_weight="1"></TextView>-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_tablet"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent" />
 </LinearLayout>

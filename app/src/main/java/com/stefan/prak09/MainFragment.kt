@@ -51,7 +51,17 @@ class MainFragment : Fragment() {
         newsArticleAdapter.setArticleDataListener(object : NewsArticleAdapter.ArticleDataListener {
             override fun articleItemClicked(article: Article) {
                 val fragmentTransaction = activity?.supportFragmentManager?.beginTransaction()
-                fragmentTransaction?.replace(R.id.fragment_container, ScrollingFragment.newInstance(article))
+                if (fragmentMainBinding.fragmentContainerTablet != null) {
+                    fragmentTransaction?.replace(R.id.fragment_container_tablet,
+                        ScrollingFragment.newInstance(article))
+
+                } else {
+                    fragmentTransaction?.replace(R.id.fragment_container,
+                        ScrollingFragment.newInstance(article))
+                    fragmentTransaction?.addToBackStack(null)
+
+
+                }
                 fragmentTransaction?.commit()
 
             }
@@ -59,9 +69,10 @@ class MainFragment : Fragment() {
 
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false)
         fragmentMainBinding.rvNews.layoutManager = LinearLayoutManager(activity)
@@ -84,10 +95,11 @@ class MainFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(): MainFragment{
+        fun newInstance(): MainFragment {
             return MainFragment()
         }
     }
+
     override fun onStart() {
         super.onStart()
         fetchArticleData()
