@@ -71,51 +71,62 @@ class ScrollingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        article?.let { (showMoreArticleData(it)) }
+        //article?.let { (showMoreArticleData(it)) }
+        fragmentScrollingBinding.toolbarLayout.title = article?.title
+        fragmentScrollingBinding.icContent.tvPublishedDate?.text = article?.publishedAt
+        fragmentScrollingBinding.icContent.tvAuthor?.text = article?.author
+        fragmentScrollingBinding.icContent.tvDescription?.text = article?.description
+        fragmentScrollingBinding.icContent.tvContent?.text = article?.content
+        fragmentScrollingBinding.icContent.tvUrl?.setOnClickListener {
+         val webUrl = Uri.parse(article?.url);
+         val webIntent = Intent(Intent.ACTION_VIEW, webUrl);
+         startActivity(webIntent)
+        }
+
     }
 
-    private fun showMoreArticleData(article: Article) {
-        val service = retrofit.create(NewsApi::class.java)
-        val call = service.getCurrentNewsData("Twitter",
-            "f0c081794a864a8ca72ebbebc350efc9") //Getting Twitter Related News
-        call?.enqueue(object : Callback<ArticlesJson?> {
-            override fun onResponse(call: Call<ArticlesJson?>, response: Response<ArticlesJson?>) {
-                val responseArticle = response.body()?.articles;
-                fragmentScrollingBinding.toolbarLayout.title =
-                    responseArticle?.let {
-                        article.title
-                    }.toString()
-                fragmentScrollingBinding.icContent.tvPublishedDate?.text =
-                    responseArticle?.let {
-                        article.publishedAt
-                    }.toString()
-                fragmentScrollingBinding.icContent.tvAuthor?.text = "Written By : ${responseArticle?.let {
-                    article.author
-                }.toString()}"
-
-                fragmentScrollingBinding.icContent.tvDescription?.text =
-                    responseArticle?.let {
-                        article.description
-                    }.toString()
-                fragmentScrollingBinding.icContent.tvContent?.text = responseArticle?.let {
-                    article.content
-                }.toString()
-                fragmentScrollingBinding.icContent.tvUrl?.setOnClickListener {
-                    val webUrl = Uri.parse(responseArticle?.let {
-                        article.url
-                    }.toString());
-                    //implicit intent
-                    val webIntent = Intent(Intent.ACTION_VIEW, webUrl);
-                    startActivity(webIntent)
-                }
-            }
-
-            override fun onFailure(call: Call<ArticlesJson?>, t: Throwable) {
-                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-
-            }
-
-        })
-    }
+    //private fun showMoreArticleData(article: Article) {
+//        val service = retrofit.create(NewsApi::class.java)
+//        val call = service.getCurrentNewsData("Twitter",
+//            "f0c081794a864a8ca72ebbebc350efc9") //Getting Twitter Related News
+//        call?.enqueue(object : Callback<ArticlesJson?> {
+//            override fun onResponse(call: Call<ArticlesJson?>, response: Response<ArticlesJson?>) {
+//                val responseArticle = response.body()?.articles;
+//                fragmentScrollingBinding.toolbarLayout.title =
+//                    responseArticle?.let {
+//                        article.title
+//                    }.toString()
+//                fragmentScrollingBinding.icContent.tvPublishedDate?.text =
+//                    responseArticle?.let {
+//                        article.publishedAt
+//                    }.toString()
+//                fragmentScrollingBinding.icContent.tvAuthor?.text = "Written By : ${responseArticle?.let {
+//                    article.author
+//                }.toString()}"
+//
+//                fragmentScrollingBinding.icContent.tvDescription?.text =
+//                    responseArticle?.let {
+//                        article.description
+//                    }.toString()
+//                fragmentScrollingBinding.icContent.tvContent?.text = responseArticle?.let {
+//                    article.content
+//                }.toString()
+//                fragmentScrollingBinding.icContent.tvUrl?.setOnClickListener {
+//                    val webUrl = Uri.parse(responseArticle?.let {
+//                        article.url
+//                    }.toString());
+//                    //implicit intent
+//                    val webIntent = Intent(Intent.ACTION_VIEW, webUrl);
+//                    startActivity(webIntent)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ArticlesJson?>, t: Throwable) {
+//                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
+//
+//            }
+//
+//        })
+//    }
 
 }
